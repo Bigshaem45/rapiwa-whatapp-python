@@ -4,64 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Message Form</title>
+    <link rel="stylesheet" href="static/style.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input, textarea, select, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            box-sizing: border-box;
-        }
-        .hidden {
-            display: none;
-        }
+        
     </style>
 </head>
 <body>
-    <h1>Send a Message</h1>
-    <form id="messageForm">
+    <h1>Send a WhatsApp Message</h1>
+    <form id="messageForm" action="http://127.0.0.1:8000/send-message/" method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="subject">Message Subject</label>
-            <input type="text" id="subject" name="subject" placeholder="Enter message subject" required>
+            <label for="phoneNumbers">To:</label>
+            <textarea id="phoneNumbers" name="phoneNumbers" rows="4" placeholder="Enter the numbers with their country codes and commas eg. +2349400390290, +2349977587623" required></textarea>
         </div>
         <div class="form-group">
             <label for="description">Message Description</label>
-            <textarea id="description" name="description" rows="4" placeholder="Enter message description" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="sendWithMedia">Send with Media?</label>
-            <select id="sendWithMedia" name="sendWithMedia" required>
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-            </select>
-        </div>
-        <div class="form-group hidden" id="mediaUploadGroup">
-            <label for="mediaUpload">Upload Media (Max 16MB, Formats: jpg, png, mp4)</label>
-            <input type="file" id="mediaUpload" name="mediaUpload" accept=".jpg,.jpeg,.png,.mp4">
+            <textarea id="messageDescription" name="messageDescription" rows="4" placeholder="Enter message description" required></textarea>
         </div>
         <button type="submit">Send Message</button>
     </form>
 
     <script>
-        const sendWithMedia = document.getElementById('sendWithMedia');
-        const mediaUploadGroup = document.getElementById('mediaUploadGroup');
-
-        sendWithMedia.addEventListener('change', function () {
-            if (this.value === 'yes') {
-                mediaUploadGroup.classList.remove('hidden');
-            } else {
-                mediaUploadGroup.classList.add('hidden');
-            }
+        document.getElementById("messageForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+        
+            const formData = new FormData(this);
+        
+            const response = await fetch("http://localhost:8000/send-message/", {
+                method: "POST",
+                body: formData
+            });
+        
+            const result = await response.json();
+            console.log(result);
+            alert("Message sent to: " + result.recipients.join(", "));
         });
     </script>
 </body>
