@@ -48,6 +48,10 @@ Before running this application, ensure you have:
    ```bash
    pip install fastapi uvicorn python-dotenv requests jinja2 python-multipart
    ```
+   or
+   ```bash
+   pip install -r requirements.txt
+  ```
 
 4. **Configure environment variables**
    
