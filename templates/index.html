@@ -24,20 +24,46 @@
     </form>
 
     <script>
-        document.getElementById("messageForm").addEventListener("submit", async function(e) {
+        const form = document.getElementById("messageForm");
+        const toast = document.getElementById("toast");
+        const spinner = document.getElementById("spinner");
+    
+        form.addEventListener("submit", async function(e) {
             e.preventDefault();
-        
-            const formData = new FormData(this);
-        
-            const response = await fetch("http://localhost:8000/send-message/", {
-                method: "POST",
-                body: formData
-            });
-        
-            const result = await response.json();
-            console.log(result);
-            alert("Message sent to: " + result.recipients.join(", "));
+    
+            spinner.style.display = "flex";
+    
+            try {
+                const formData = new FormData(this);
+                const response = await fetch("http://localhost:8000/send-message/", {
+                    method: "POST",
+                    body: formData
+                });
+    
+                const result = await response.json();
+                showToast("Message sent to: " + result.recipients.join(", "));
+            } catch (error) {
+                showToast("Failed to send message. Please try again.");
+            } finally {
+                spinner.style.display = "none";
+            }
         });
+    
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 4000);
+        }
     </script>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Message sent successfully!</div>
+
+    <!-- Loading Spinner -->
+    <div id="spinner" class="spinner-overlay">
+    <div class="spinner"></div>
+    </div>
+
 </body>
 </html>
