@@ -109,7 +109,7 @@ Sends WhatsApp messages to specified recipients.
 }
 ```
 
-## 🛠️ Technical Stack
+## Technical Stack
 
 - **Backend Framework**: FastAPI
 - **HTTP Client**: Requests
