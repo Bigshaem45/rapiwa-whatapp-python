@@ -138,7 +138,7 @@ Sends WhatsApp messages to specified recipients.
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/yourusername/rapiwa-whatsapp-python/issues).
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Bigshaem45/rapiwa-whatapp-python/issues).
 
 ## 📧 Contact
 
