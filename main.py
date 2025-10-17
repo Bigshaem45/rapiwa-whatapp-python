@@ -35,7 +35,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-
 @app.post("/send-message/")
 async def send_message(
     phoneNumbers: str = Form(...),
@@ -43,6 +42,8 @@ async def send_message(
 ):
     phone_list = [num.strip() for num in phoneNumbers.split(",")]
     results = []
+    # Collect successful recipients to return to the frontend
+    successful_recipients = [] 
 
     for number in phone_list:
         payload = {
@@ -50,19 +51,27 @@ async def send_message(
             "message_type": "text",
             'message': messageDescription
         }
+        # Use an async HTTP client (like httpx) in FastAPI for better performance
+        # For this example, we'll keep requests, but be aware of the blocking nature
         response = requests.post(url, json=payload, headers=headers)
+        
         if response.status_code == 200:
             results.append({
                 "number": number,
                 "status": "success",
                 "response": response.json()
             })
+            # Add the number to the successful list
+            successful_recipients.append(number) 
         else:
             results.append({
                 "number": number,
                 "status": "failed",
                 "error": response.text
             })
-
-    return {"results": results}
-
+            
+    return {
+        "message": "Processing complete",
+        "recipients": successful_recipients,  # This is what the frontend expects!
+        "results_detail": results             # Keep the detailed results for debugging
+    }

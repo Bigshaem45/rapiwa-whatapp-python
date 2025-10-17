@@ -24,46 +24,66 @@
     </form>
 
     <script>
-        const form = document.getElementById("messageForm");
-        const toast = document.getElementById("toast");
-        const spinner = document.getElementById("spinner");
-    
-        form.addEventListener("submit", async function(e) {
-            e.preventDefault();
-    
-            spinner.style.display = "flex";
-    
+        document.getElementById("messageForm").addEventListener("submit", async function(e) {
+            e.preventDefault(); 
+        
+            const formData = new FormData(this);
+            const form = this; // Reference to the form element
+        
             try {
-                const formData = new FormData(this);
                 const response = await fetch("http://localhost:8000/send-message/", {
                     method: "POST",
                     body: formData
                 });
     
-                const result = await response.json();
-                showToast("Message sent to: " + result.recipients.join(", "));
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("Server Error:", response.status, response.statusText);
+                    console.error("Response Body:", errorText);
+                    // Removed the "baba ee dey work" log as it's not helpful here
+                    alert(`Error: Failed to send message (Status: ${response.status}). Check the console for details.`);
+                    return; 
+                }
+            
+                const result = await response.json(); 
+                console.log(result);
+                
+                // --- SIMPLIFIED SUCCESS LOGIC ---
+                // The backend is now guaranteed to return result.recipients as a list
+                if (Array.isArray(result.recipients)) {
+                    const successfulCount = result.recipients.length;
+                    let successMessage = `Successfully sent message to ${successfulCount} recipient(s).`;
+    
+                    if (successfulCount > 0) {
+                        // Show a list of successfully messaged numbers
+                        successMessage += " Recipients: " + result.recipients.join(", ");
+                    } else {
+                        // This handles cases where the overall response is 200 OK, 
+                        // but the internal messaging API failed for all numbers.
+                        successMessage = "Message processing completed, but no messages were successfully sent. Check details in console.";
+                    }
+                    
+                    alert(successMessage);
+                    form.reset(); // Clear the form fields on successful submission
+                    
+                } else {
+                    // Fallback for an unexpected 200 OK response structure
+                    alert("Message processing complete. Check console for details.");
+                }
+     
             } catch (error) {
-                showToast("Failed to send message. Please try again.");
-            } finally {
-                spinner.style.display = "none";
+                console.error("Fetch or Parsing Error:", error);
+                alert("A network or parsing error occurred. Check the console for details.");
             }
         });
-    
-        function showToast(message) {
-            toast.textContent = message;
-            toast.classList.add("show");
-            setTimeout(() => {
-                toast.classList.remove("show");
-            }, 4000);
-        }
     </script>
     <!-- Toast Notification -->
-    <div id="toast" class="toast">Message sent successfully!</div>
+<div id="toast" class="toast">Message sent successfully!</div>
 
-    <!-- Loading Spinner -->
-    <div id="spinner" class="spinner-overlay">
-    <div class="spinner"></div>
-    </div>
+<!-- Loading Spinner -->
+<div id="spinner" class="spinner-overlay">
+  <div class="spinner"></div>
+</div>
 
 </body>
 </html>
