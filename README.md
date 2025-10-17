@@ -51,7 +51,7 @@ Before running this application, ensure you have:
    or
    ```bash
    pip install -r requirements.txt
-  ```
+   ```
 
 4. **Configure environment variables**
    
