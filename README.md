@@ -22,7 +22,7 @@ This application follows a clean architecture pattern:
 - **Frontend**: Static HTML/CSS/JavaScript provides an intuitive user interface
 - **Integration**: Environment-based configuration ensures secure API key management
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before running this application, ensure you have:
 
@@ -30,7 +30,7 @@ Before running this application, ensure you have:
 - A Rapiwa API account and API key
 - pip (Python package manager)
 
-## 🚀 Installation
+## Installation
 
 1. **Clone the repository**
    ```bash
@@ -56,7 +56,7 @@ Before running this application, ensure you have:
    API_KEY='your_rapiwa_api_key_here'
    ```
 
-## 🎯 Usage
+## Usage
 
 1. **Start the server**
    ```bash
@@ -73,7 +73,7 @@ Before running this application, ensure you have:
    - Click "Send Message"
    - View success notifications for each recipient
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 rapiwa-whatsapp-python/
@@ -88,7 +88,7 @@ rapiwa-whatsapp-python/
 └── requirements.txt      # Python dependencies (create this)
 ```
 
-## 🔑 API Endpoints
+## API Endpoints
 
 ### `GET /`
 Serves the main application interface.
@@ -118,14 +118,14 @@ Sends WhatsApp messages to specified recipients.
 - **Server**: Uvicorn (ASGI)
 - **Frontend**: Vanilla JavaScript, HTML5, CSS3
 
-## 🔐 Security Considerations
+## Security Considerations
 
 - API keys are stored in environment variables, not hardcoded
 - `.env` file is excluded from version control via `.gitignore`
 - CORS is configured (adjust for production deployment)
 - Input validation on both frontend and backend
 
-## 🚧 Future Enhancements
+## Future Enhancements
 
 - [ ] Add message templates
 - [ ] Implement message scheduling
@@ -136,17 +136,17 @@ Sends WhatsApp messages to specified recipients.
 - [ ] Rate limiting implementation
 - [ ] Docker containerization
 
-## 🤝 Contributing
+## Contributing
 
 Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Bigshaem45/rapiwa-whatapp-python/issues).
 
-## 📧 Contact
+## Contact
 
 https://github.com/Bigshaem45
 
 Project Link: https://github.com/Bigshaem45/rapiwa-whatapp-python
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Rapiwa](https://rapiwa.com) for providing the WhatsApp API
 - [FastAPI](https://fastapi.tiangolo.com/) for the excellent web framework
